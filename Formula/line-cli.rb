@@ -10,7 +10,8 @@ class LineCli < Formula
 
   def install
     ENV["CGO_ENABLED"] = "1"
-    system "go", "build", *std_go_args(ldflags: "-s -w -X main.version=cli-v#{version}"), "./cmd/line"
+    system "go", "build", *std_go_args(output: bin/"line", ldflags: "-s -w -X main.version=cli-v#{version}"),
+           "./cmd/line"
   end
 
   test do
