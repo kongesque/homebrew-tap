@@ -6,7 +6,8 @@ Install [LINE CLI](https://github.com/kongesque/line-cli) on macOS:
 brew install kongesque/homebrew-tap/line-cli
 ```
 
-The formula installs the release matching your Mac's architecture. To upgrade:
+The formula builds the tagged release from source for your Mac's architecture.
+To upgrade:
 
 ```sh
 brew upgrade line-cli

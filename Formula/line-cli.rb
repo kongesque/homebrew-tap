@@ -5,6 +5,11 @@ class LineCli < Formula
   sha256 "4609031545743c4ab31a714c5ce09fe1e6d31cd9f43a178bbb1ec5a7f243d07e"
   license "MIT"
 
+  livecheck do
+    url :stable
+    regex(/^cli-v?(\d+(?:\.\d+)+)$/i)
+  end
+
   depends_on "go" => :build
   depends_on :macos
 
