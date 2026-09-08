@@ -1,23 +1,16 @@
 class LineCli < Formula
   desc "Unofficial LINE client for personal accounts"
   homepage "https://github.com/kongesque/line-cli"
-  version "0.1.0"
+  url "https://github.com/kongesque/line-cli/archive/refs/tags/cli-v0.1.0.tar.gz"
+  sha256 "4609031545743c4ab31a714c5ce09fe1e6d31cd9f43a178bbb1ec5a7f243d07e"
   license "MIT"
 
+  depends_on "go" => :build
   depends_on :macos
 
-  on_arm do
-    url "https://github.com/kongesque/line-cli/releases/download/cli-v0.1.0/line-darwin-arm64.tar.gz"
-    sha256 "add25c7bf9aa03b9c744b11e011ce52bd26aaba8ddd181ee9e0e425575f7b906"
-  end
-
-  on_intel do
-    url "https://github.com/kongesque/line-cli/releases/download/cli-v0.1.0/line-darwin-amd64.tar.gz"
-    sha256 "be0e1d27e7dbcf40b09285b796fb5dc8e399e35a2ac26cdee7179735a2b7c495"
-  end
-
   def install
-    bin.install "line"
+    ENV["CGO_ENABLED"] = "1"
+    system "go", "build", *std_go_args(ldflags: "-s -w -X main.version=cli-v#{version}"), "./cmd/line"
   end
 
   test do
