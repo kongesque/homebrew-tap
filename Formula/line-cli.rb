@@ -1,22 +1,28 @@
 class LineCli < Formula
   desc "Unofficial LINE client for personal accounts"
   homepage "https://github.com/kongesque/line-cli"
-  url "https://github.com/kongesque/line-cli/archive/refs/tags/cli-v0.1.0.tar.gz"
-  sha256 "4609031545743c4ab31a714c5ce09fe1e6d31cd9f43a178bbb1ec5a7f243d07e"
+  version "0.3.0"
   license "MIT"
 
-  livecheck do
-    url :stable
-    regex(/^cli-v?(\d+(?:\.\d+)+)$/i)
+  on_arm do
+    url "https://github.com/kongesque/line-cli/releases/download/v0.3.0/line-darwin-arm64.tar.gz"
+    sha256 "1191964feec1f37198a8cf1504f82b68c56edcf12436727bf09542d204065e3c"
   end
 
-  depends_on "go" => :build
+  on_intel do
+    url "https://github.com/kongesque/line-cli/releases/download/v0.3.0/line-darwin-amd64.tar.gz"
+    sha256 "2defa1e1397dc95586318b3ab7925635a6f8a20874cbf0d192568c44a819c6fa"
+  end
+
+  livecheck do
+    url "https://github.com/kongesque/line-cli/releases"
+    regex(%r{href=.*?/releases/tag/v?(\d+(?:\.\d+)+)}i)
+  end
+
   depends_on :macos
 
   def install
-    ENV["CGO_ENABLED"] = "1"
-    system "go", "build", *std_go_args(output: bin/"line", ldflags: "-s -w -X main.version=cli-v#{version}"),
-           "./cmd/line"
+    bin.install "line"
   end
 
   test do
