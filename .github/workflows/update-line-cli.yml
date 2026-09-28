@@ -1,0 +1,56 @@
+name: Propose LINE CLI formula update
+
+on:
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'Formula/line-cli.rb'
+      - 'scripts/**'
+      - '.github/workflows/update-line-cli.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m unittest discover -s scripts -p 'test_*.py'
+      - run: ruby -c Formula/line-cli.rb
+
+  propose:
+    if: github.event_name != 'pull_request'
+    needs: validate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify release assets and update formula
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python scripts/update_formula.py
+      - run: ruby -c Formula/line-cli.rb
+      - run: git diff --check
+      - name: Open or update formula PR
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: chore/line-cli-release
+          delete-branch: true
+          add-paths: Formula/line-cli.rb
+          commit-message: 'chore: update LINE CLI formula'
+          title: 'chore: update LINE CLI formula'
+          body: |
+            The latest stable LINE CLI release is available in this tap.
+
+            The updater verified both macOS archive sizes and SHA-256 digests against the release checksum manifest. Review and merge this PR to publish the formula update.
