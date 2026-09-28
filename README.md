@@ -12,3 +12,8 @@ To upgrade:
 ```sh
 brew upgrade line-cli
 ```
+
+The [formula update workflow](.github/workflows/update-line-cli.yml) checks for
+stable LINE CLI releases hourly and can also be run manually. It verifies both
+macOS archives against the published SHA-256 manifest, then opens a pull request
+for review. The tap changes only when that pull request is merged.
