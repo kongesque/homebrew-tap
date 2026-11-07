@@ -1,17 +1,17 @@
 class LineCli < Formula
   desc "Unofficial LINE client for personal accounts"
   homepage "https://github.com/kongesque/line-cli"
-  version "0.5.0"
+  version "0.6.0"
   license "MIT"
 
   on_arm do
-    url "https://github.com/kongesque/line-cli/releases/download/v0.5.0/line-darwin-arm64.tar.gz"
-    sha256 "8e554732556f2da27bf68046f4b695275a2f4bed44c63d0348e7fd2ebf96c2ee"
+    url "https://github.com/kongesque/line-cli/releases/download/v0.6.0/line-darwin-arm64.tar.gz"
+    sha256 "8aab9cbcef9f08184a4be26f36d02ef6509ee3529421ea1f2b671948a91afaf3"
   end
 
   on_intel do
-    url "https://github.com/kongesque/line-cli/releases/download/v0.5.0/line-darwin-amd64.tar.gz"
-    sha256 "a3fae356d6afc4798f3217e6926e22f9371cfd28484f144eb87841bc8fe9bf17"
+    url "https://github.com/kongesque/line-cli/releases/download/v0.6.0/line-darwin-amd64.tar.gz"
+    sha256 "03fea00dd6738e079c24283e5d3278fc87d6ac1b9fc5f86a4c265a19032bc14e"
   end
 
   livecheck do
